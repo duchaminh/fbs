@@ -18,11 +18,12 @@ public class JsonDataController {
 	@Autowired
 	private ProductDAO productDAO;
 
+
+	// cái này để em lấy dữ liệu Json, sau này dùng cho admin view product
 	@RequestMapping("/admin/all/products")
 	@ResponseBody
 	public List<Product> getAllProductsList() {
 		return productDAO.loadProducts();
-
 	}
 
 	@RequestMapping("/all/products")

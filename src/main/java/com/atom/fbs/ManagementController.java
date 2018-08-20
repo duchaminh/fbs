@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,12 +45,10 @@ public class ManagementController {
 		product.setSupplierId(1);
 		product.setActive(true);
 		mv.addObject("product", product);
-		//mv.addObject("categories",categoryDAO.loadCategories());
 
 		if (operation != null) {
 			if (operation.equals("product")) {
 				mv.addObject("message", "Product submitted successfully!");
-				mv.addObject("test", "Product submitted successfully!");
 			} else if (operation.equals("category")) {
 				mv.addObject("message", "Category submitted successfully!");
 			}
@@ -65,74 +64,52 @@ public class ManagementController {
 	}
 
 	@RequestMapping(value = "/product", method = RequestMethod.POST)
-	public String managePostProduct(@Valid @ModelAttribute("product") Product mProduct,BindingResult results, Model model, HttpServletRequest request) throws Exception {
-		if(mProduct.getId() == 0) {
+	public String managePostProduct(@Valid @ModelAttribute("product") Product mProduct, BindingResult results,
+			Model model, HttpServletRequest request) throws Exception {
+		if (mProduct.getId() == 0
+				|| (mProduct.getFile() != null && StringUtils.isEmpty(mProduct.getFile().getOriginalFilename()))) {
 			new ProductValidator().validate(mProduct, results);
 		}
-		else {
-			// edit check only when the file has been selected
-			if(!mProduct.getFile().getOriginalFilename().equals("")) {
-				new ProductValidator().validate(mProduct, results);
-			}			
-		}
-		
-		if(results.hasErrors()) {
+
+		if (results.hasErrors()) {
 			model.addAttribute("message", "Validation fails for adding the product!");
 			return "manageProduct";
-		}	
-		
-		 if (mProduct.getId() == 0) { 
-			 productDAO.add(mProduct); 
-			 } 
-		 else {
-			  productDAO.update(mProduct); 
-			  }
-		 
-		 
-		 if(!mProduct.getFile().getOriginalFilename().equals("") ){
-				FileUtil.uploadFile(request, mProduct.getFile(), mProduct.getCode()); 
-			 }
-		
+		}
+
+		if (mProduct.getId() == 0) {
+			productDAO.add(mProduct);
+		} else {
+			productDAO.update(mProduct);
+		}
+
+		if (!mProduct.getFile().getOriginalFilename().equals("")) {
+			FileUtil.uploadFile(request, mProduct.getFile(), mProduct.getCode());
+		}
+
 		return "redirect:/manage/product?operation=product";
 	}
 
-	
-	  @ModelAttribute("category") public Category modelCategory() { return new
-	  Category();
-	  
-	  }
-	 
-	  @RequestMapping(value = "/category", method = RequestMethod.POST) 
-	  public String managePostCategory(@ModelAttribute("category") Category mCategory) throws Exception { 
-	  categoryDAO.add(mCategory); 
-	  return "redirect:/manage/product?operation=category"; 
-	  }
-	
-	  @RequestMapping("/{id}/product") public ModelAndView
-	  manageProductEdit(@PathVariable int id) {
-	  
-	  ModelAndView mv = new ModelAndView("manageProduct"); 
-	 
-	  Product nProduct = productDAO.findById(id);
-	  mv.addObject("product", nProduct);
-	  
-	  return mv;
-	  
-	  }
-	  
-	 /* @RequestMapping(value = "/product/{id}/activation", method =
-	  RequestMethod.GET)
-	  
-	  @ResponseBody public String managePostProductActivation(@PathVariable int id)
-	  { Product product = productDAO.get(id); boolean isActive =
-	  product.isActive(); product.setActive(!isActive); productDAO.update(product);
-	  return (isActive) ? "Product Dectivated Successfully!" :
-	  "Product Activated Successfully"; }
-	  
-	 
-	  */
-	  
-	  
-	  
-	 
+	@ModelAttribute("category")
+	public Category modelCategory() {
+		return new Category();
+
+	}
+
+	@RequestMapping(value = "/category", method = RequestMethod.POST)
+	public String managePostCategory(@ModelAttribute("category") Category mCategory) throws Exception {
+		categoryDAO.add(mCategory);
+		return "redirect:/manage/product?operation=category";
+	}
+
+	@RequestMapping("/{id}/product")
+	public ModelAndView manageProductEdit(@PathVariable int id) {
+
+		ModelAndView mv = new ModelAndView("manageProduct");
+
+		Product nProduct = productDAO.findById(id);
+		mv.addObject("product", nProduct);
+
+		return mv;
+
+	}
 }

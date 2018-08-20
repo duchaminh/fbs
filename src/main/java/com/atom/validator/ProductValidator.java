@@ -1,5 +1,8 @@
 package com.atom.validator;
 
+
+import org.h2.util.StringUtils;
+
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -16,7 +19,8 @@ public class ProductValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		
 		Product product = (Product) target;
-		if(product.getFile() == null || product.getFile().getOriginalFilename().equals("")) {
+
+		if(product.getFile() == null || StringUtils.isNullOrEmpty(product.getFile().getOriginalFilename())) {
 			errors.rejectValue("file", null, "Please select a file to upload!");
 			return;
 		}
