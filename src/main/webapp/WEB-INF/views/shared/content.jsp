@@ -15,13 +15,13 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title  -->
-    <title>Amado - Furniture Ecommerce Template | Shop</title>
+    <title>Amado Shop</title>
 
     <!-- Favicon  -->
     <link rel="icon" href="${img}/core-img/favicon.ico">
 
     <!-- Core Style CSS -->
-    <link rel="stylesheet" href="${css}/core-style.css">
+    <link rel="stylesheet" href="${css}/style.css">
 
 </head>
 
@@ -32,8 +32,7 @@
 		<!-- Single Catagory -->
 		<c:forEach items = "${products}" var = "product">
 		<div class="single-products-catagory clearfix">
-		 
-			<a href="${contextRoot}/fbs/show/${product.id}/product"> <img src="${img}/bg-img/${product.code}.jpg">
+				<a href="${contextRoot}/fbs/show/${product.id}/product"> <img src="${img}/product-img/${product.code}.jpg">
 				<div class="hover-content">
 					<div class="line"></div>
 					<p>${product.name}</p>

@@ -22,7 +22,6 @@
     <!-- Core Style CSS -->
     <link rel="stylesheet" href="${css}/core-style.css">
     
-    
 
 </head>
 <body>
@@ -53,7 +52,7 @@
             </div>
             <!-- Cart Menu -->
             <div class="cart-fav-search mb-100">
-                <a href="cart.html" class="cart-nav"><img src="${img}/core-img/cart.png" alt=""> Cart <span>(0)</span></a>
+                <a href="#" class="cart-nav"><img src="${img}/core-img/cart.png" alt=""> Cart <span>(0)</span></a>
                 <a href="#" class="fav-nav"><img src="${img}/core-img/favorites.png" alt=""> Favourite</a>
                 <a href="#" class="search-nav"><img src="${img}/core-img/search.png" alt=""> Search</a>
             </div>
@@ -66,7 +65,7 @@
             </div>
         </header>
         <!-- Header Area End -->
-         <script src="${js}/jquery/jquery-2.2.4.min.js"></script>
+    <script src="${js}/jquery/jquery-2.2.4.min.js"></script>
     <!-- Popper js -->
     <script src="${js}/popper.min.js"></script>
     <!-- Bootstrap js -->

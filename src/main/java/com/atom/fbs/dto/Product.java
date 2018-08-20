@@ -9,10 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.web.multipart.MultipartFile;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Product implements Serializable {
@@ -24,40 +24,46 @@ public class Product implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
-	
+
 	@Column(name = "code")
 	private String code;
-	
+
+	@NotNull(message = "please enter the product name!")
 	@Column(name = "name")
 	private String name;
-	
+
+	@NotNull(message = "please enter the product branch!")
 	@Column(name = "brand")
 	private String brand;
-	
+
+	@NotNull(message = "please enter the description for product!")
 	@Column(name = "description")
 	private String description;
-	
+
 	@Column(name = "unit_price")
 	private double unitPrice;
-	
+
+	@Min(value = 1)
+
 	@Column(name = "quantity")
 	private int quantity;
-	
+
 	@Column(name = "is_active")
 	private boolean active;
-	
+
 	@Column(name = "category_id")
 	private int categoryId;
-	
+
 	@Column(name = "supplier_id")
 	private int supplierId;
-	
+
 	@Column(name = "purchases")
 	private int purchases;
-	
+
 	@Column(name = "views")
 	private int views;
-
+	
+	@NotNull
 	@Transient
 	private MultipartFile file;
 
